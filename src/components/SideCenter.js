@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import axios from "axios"
 import { useState } from "react"
 import { useParams, useHistory, NavLink } from "react-router-dom"
@@ -62,9 +62,9 @@ function SideCenter() {
                         {
                             IrregularVerb.map((verb, index) => {
                                 return (
-                                    <>
-                                        <li key={index} className="col-3 "><NavLink to={"conjugation/conjugation-verb-" + verb + ".html"} className="text-info" onClick={ClickOn}>{verb}</NavLink> </li>
-                                    </>
+                                    <Fragment key={index}>
+                                        <li className="col-3 "><NavLink to={"conjugation/conjugation-verb-" + verb + ".html"} className="text-info" onClick={ClickOn}>{verb}</NavLink> </li>
+                                    </Fragment>
                                 )
                             })
                         }

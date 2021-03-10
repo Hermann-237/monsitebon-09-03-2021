@@ -12,12 +12,12 @@ function Footer() {
 
 
           <li className="nav-item">
-            <Link activeClassName="simo" className="nav-link my-link px-5 py-3 " to="/privacy">
+            <Link className="nav-link my-link px-5 py-3 " to="/privacy">
               Privacy Policy
                 </Link>
           </li>
           <li className="nav-item">
-            <Link activeClassName="simo" className="nav-link my-link px-5 py-3" to="/blog">
+            <Link className="nav-link my-link px-5 py-3" to="/blog">
               Blog
                 </Link>
           </li>

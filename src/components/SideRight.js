@@ -2,6 +2,7 @@ import { useState } from "react"
 import { NavLink } from "react-router-dom"
 import ListVerb from "../ListVerb"
 import axios from "axios"
+import { Fragment } from "react"
 const popularVerb = require("./popularVerb")
 function SideRight() {
 
@@ -41,9 +42,9 @@ function SideRight() {
                     {
                         PopularVerb.map((verb, index) => {
                             return (
-                                <>
-                                    <li key={index} className="col-6"><NavLink to={"/conjugation/conjugation-verb-" + verb + ".html"} className="text-info" onClick={ClickOn}>{verb}</NavLink> </li>
-                                </>
+                                <Fragment key={index}>
+                                    <li className="col-6"><NavLink to={"/conjugation/conjugation-verb-" + verb + ".html"} className="text-info" onClick={ClickOn}>{verb}</NavLink> </li>
+                                </Fragment>
                             )
                         })
                     }
