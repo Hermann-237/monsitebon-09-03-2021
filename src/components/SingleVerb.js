@@ -1,35 +1,32 @@
 import { useParams, useHistory, NavLink, } from "react-router-dom"
-import { useState } from "react"
+import { useState, useContext } from "react"
+import axios from "axios"
 import object from "./data"
 import Helmet from "react-helmet"
+import seulVerb from "./seulVerb"
+import DataContext from "../context/DataContext"
 
-const seulVerb = [
-    { "result": "OK", "conjugated_forms": [["Infinitive", "to want"], ["Simple Past", "wanted"], ["Past Participle", "wanted"]], "conjugation_tables": { "conditional": [{ "heading": "conditional present", "forms": [["I", "would want"], ["you", "would want"], ["he/she/it", "would want"], ["we", "would want"], ["you", "would want"], ["they", "would want"]] }, { "heading": "conditional present progressive", "forms": [["I", "would be wanting"], ["you", "would be wanting"], ["he/she/it", "would be wanting"], ["we", "would be wanting"], ["you", "would be wanting"], ["they", "would be wanting"]] }, { "heading": "conditional perfect", "forms": [["I", "would have wanted"], ["you", "would have wanted"], ["he/she/it", "would have wanted"], ["we", "would have wanted"], ["you", "would have wanted"], ["they", "would have wanted"]] }, { "heading": "conditional perfect progressive", "forms": [["I", "would have been wanting"], ["you", "would have been wanting"], ["he/she/it", "would have been wanting"], ["we", "would have been wanting"], ["you", "would have been wanting"], ["they", "would have been wanting"]] }], "indicative": [{ "heading": "simple present", "forms": [["I", "want"], ["you", "want"], ["he/she/it", "wants"], ["we", "want"], ["you", "want"], ["they", "want"]] }, { "heading": "present progressive", "forms": [["I", "am wanting"], ["you", "are wanting"], ["he/she/it", "is wanting"], ["we", "are wanting"], ["you", "are wanting"], ["they", "are wanting"]] }, { "heading": "present perfect", "forms": [["I", "have wanted"], ["you", "have wanted"], ["he/she/it", "has wanted"], ["we", "have wanted"], ["you", "have wanted"], ["they", "have wanted"]] }, { "heading": "present perfect progressive", "forms": [["I", "have been wanting"], ["you", "have been wanting"], ["he/she/it", "has been wanting"], ["we", "have been wanting"], ["you", "have been wanting"], ["they", "have been wanting"]] }, { "heading": "simple past", "forms": [["I", "wanted"], ["you", "wanted"], ["he/she/it", "wanted"], ["we", "wanted"], ["you", "wanted"], ["they", "wanted"]] }, { "heading": "past progressive", "forms": [["I", "was wanting"], ["you", "were wanting"], ["he/she/it", "was wanting"], ["we", "were wanting"], ["you", "were wanting"], ["they", "were wanting"]] }, { "heading": "past perfect", "forms": [["I", "had wanted"], ["you", "had wanted"], ["he/she/it", "had wanted"], ["we", "had wanted"], ["you", "had wanted"], ["they", "had wanted"]] }, { "heading": "past perfect progressive", "forms": [["I", "had been wanting"], ["you", "had been wanting"], ["he/she/it", "had been wanting"], ["we", "had been wanting"], ["you", "had been wanting"], ["they", "had been wanting"]] }, { "heading": "simple future", "forms": [["I", "will want"], ["you", "will want"], ["he/she/it", "will want"], ["we", "will want"], ["you", "will want"], ["they", "will want"]] }, { "heading": "future progressive", "forms": [["I", "will be wanting"], ["you", "will be wanting"], ["he/she/it", "will be wanting"], ["we", "will be wanting"], ["you", "will be wanting"], ["they", "will be wanting"]] }, { "heading": "future perfect", "forms": [["I", "will have wanted"], ["you", "will have wanted"], ["he/she/it", "will have wanted"], ["we", "will have wanted"], ["you", "will have wanted"], ["they", "will have wanted"]] }, { "heading": "future perfect progressive", "forms": [["I", "will have been wanting"], ["you", "will have been wanting"], ["he/she/it", "will have been wanting"], ["we", "will have been wanting"], ["you", "will have been wanting"], ["they", "will have been wanting"]] }], "passive": [{ "heading": "passive simple present", "forms": [["I", "am wanted"], ["you", "are wanted"], ["he/she/it", "is wanted"], ["we", "are wanted"], ["you", "are wanted"], ["they", "are wanted"]] }, { "heading": "passive present progressive", "forms": [["I", "am being wanted"], ["you", "are being wanted"], ["he/she/it", "is being wanted"], ["we", "are being wanted"], ["you", "are being wanted"], ["they", "are being wanted"]] }, { "heading": "passive present perfect", "forms": [["I", "have been wanted"], ["you", "have been wanted"], ["he/she/it", "has been wanted"], ["we", "have been wanted"], ["you", "have been wanted"], ["they", "have been wanted"]] }, { "heading": "passive present perfect progressive", "forms": [["I", "have been being wanted"], ["you", "have been being wanted"], ["he/she/it", "has been being wanted"], ["we", "have been being wanted"], ["you", "have been being wanted"], ["they", "have been being wanted"]] }, { "heading": "passive simple past", "forms": [["I", "was wanted"], ["you", "were wanted"], ["he/she/it", "was wanted"], ["we", "were wanted"], ["you", "were wanted"], ["they", "were wanted"]] }, { "heading": "passive past progressive", "forms": [["I", "was being wanted"], ["you", "were being wanted"], ["he/she/it", "was being wanted"], ["we", "were being wanted"], ["you", "were being wanted"], ["they", "were being wanted"]] }, { "heading": "passive past perfect", "forms": [["I", "had been wanted"], ["you", "had been wanted"], ["he/she/it", "had been wanted"], ["we", "had been wanted"], ["you", "had been wanted"], ["they", "had been wanted"]] }, { "heading": "passive past perfect progressive", "forms": [["I", "had been being wanted"], ["you", "had been being wanted"], ["he/she/it", "had been being wanted"], ["we", "had been being wanted"], ["you", "had been being wanted"], ["they", "had been being wanted"]] }, { "heading": "passive simple future", "forms": [["I", "will be wanted"], ["you", "will be wanted"], ["he/she/it", "will be wanted"], ["we", "will be wanted"], ["you", "will be wanted"], ["they", "will be wanted"]] }, { "heading": "passive future progressive", "forms": [["I", "will be being wanted"], ["you", "will be being wanted"], ["he/she/it", "will be being wanted"], ["we", "will be being wanted"], ["you", "will be being wanted"], ["they", "will be being wanted"]] }, { "heading": "passive future perfect", "forms": [["I", "will have been wanted"], ["you", "will have been wanted"], ["he/she/it", "will have been wanted"], ["we", "will have been wanted"], ["you", "will have been wanted"], ["they", "will have been wanted"]] }, { "heading": "passive future perfect progressive", "forms": [["I", "will have been being wanted"], ["you", "will have been being wanted"], ["he/she/it", "will have been being wanted"], ["we", "will have been being wanted"], ["you", "will have been being wanted"], ["they", "will have been being wanted"]] }] }, "_id": "UB9qgcz9lubtGjiX" }
-]
 
 
 function SingleVerb() {
+    const { data } = useContext(DataContext)
+    console.log("single page data", data)
+    console.log("single page object", object)
     const { singleVerb } = useParams()
-    /* const [error, seterror] = useState("") */
 
     const verbSingleOne = singleVerb.split("-")[2].split(".")[0]
     console.log("voici ", verbSingleOne)
     const title = `Conjugation  ${verbSingleOne} | Conjugate verb ${verbSingleOne} | Simplicyto Conjugator English`
-
-    /* const speakVerb =(a,b) => {
-        const utterance = new SpeechSynthesisUtterance(a + b)
-        utterance.rate = 1
-        utterance.lang = "us-US"
-        speechSynthesis.speak(utterance)
-    } */
 
 
     let result5;
     let rechercheVerb;
     let error;
 
-
     rechercheVerb = object.filter(element => element.conjugated_forms[0][1].split(" ")[1] === verbSingleOne || element.conjugated_forms[1][1] === verbSingleOne || element.conjugated_forms[1][1] === verbSingleOne || element.conjugated_forms[2][1] === verbSingleOne)
+
+
+
 
     if (rechercheVerb.length === 0) {
         result5 = seulVerb
@@ -39,6 +36,22 @@ function SingleVerb() {
     }
 
 
+    /* const options = {
+        method: 'GET',
+        url: 'https://linguatools-conjugations.p.rapidapi.com/conjugate/',
+        params: { verb: verbSingleOne },
+        headers: {
+            'x-rapidapi-key': '2a50965eebmsh629d096fce14516p1319aejsn22e0ba714d98',
+            'x-rapidapi-host': 'linguatools-conjugations.p.rapidapi.com'
+        }
+    };
+
+    axios.request(options).then(function (response) {
+        result5 = response.data
+    }).catch(function (error) {
+        console.error(error);
+    })
+ */
 
 
 
@@ -532,6 +545,7 @@ function SingleVerb() {
 
     function seachVerb(e) {
         e.preventDefault()
+        console.log(data)
         let result2 = object.filter(element => element.conjugated_forms[0][1].split(" ")[1] === inputValue || element.conjugated_forms[1][1] === inputValue || element.conjugated_forms[1][1] === inputValue || element.conjugated_forms[2][1] === inputValue)
 
 

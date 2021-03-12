@@ -1,7 +1,7 @@
 /* import {BrowserRouter,Switch,Route} from "react-router-dom" */
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-
+import { useContext, useState } from "react"
 import './App.css';
 import Header from "./components/Header"
 import Products from "./components/Products"
@@ -11,7 +11,10 @@ import SingleVerb from "./components/SingleVerb"
 import Footer from "./components/Footer"
 import Synonyme from "./components/Synonyme"
 import Dictionary from "./components/Dictionary"
+import DataContext from "./context/DataContext"
 function App() {
+  const { data } = useContext(DataContext)
+  console.log("voici hermann", data)
   return (
     <div className="App">
       <BrowserRouter>

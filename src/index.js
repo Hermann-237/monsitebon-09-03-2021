@@ -3,9 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import DataProvider from "./context/DataProvider"
+
 
 ReactDOM.render(
-  <App />,
+  <DataProvider>
+
+    <App />
+  </DataProvider>
+  ,
   document.getElementById('root')
 );
 

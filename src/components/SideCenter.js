@@ -1,46 +1,27 @@
 import React, { Fragment } from 'react'
-import axios from "axios"
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { useParams, useHistory, NavLink } from "react-router-dom"
-const irregularVerb = require("./irregularVerb")
+import irregularVerb from "./irregularVerb"
+import DataContext from "../context/DataContext"
 
 
 function SideCenter() {
+    const { data } = useContext(DataContext)
+    console.log(data)
     const [IrregularVerb] = useState(irregularVerb)
-    let [dataVrai, setdataVrai] = useState("")
     const papa = useParams()
     const [inputValue, setinputValue] = useState("")
     const history = useHistory()
     console.log(papa)
 
+
+
     function submitSeach(e) {
-        e.preventDefault()
         e.preventDefault()
         history.push(`/conjugation/conjugaison-verb-${inputValue}.html`)
         console.log(inputValue)
     }
 
-    function ClickOn(e) {
-        const result = e.target.textContent
-        console.log(result)
-        const options = {
-            method: 'GET',
-            url: 'https://linguatools-conjugations.p.rapidapi.com/conjugate/',
-            params: { verb: result },
-            headers: {
-                'x-rapidapi-key': '2a50965eebmsh629d096fce14516p1319aejsn22e0ba714d98',
-                'x-rapidapi-host': 'linguatools-conjugations.p.rapidapi.com'
-            }
-        };
-
-        axios.request(options).then(function (response) {
-            /* dataVrai = response.data */
-            setdataVrai(response.data)
-            console.log(dataVrai)
-        }).catch(function (error) {
-            console.error(error);
-        });
-    }
     return (
         <>
             <div className="col-7 ml-5 py-5 sideCenter ">
@@ -63,7 +44,7 @@ function SideCenter() {
                             IrregularVerb.map((verb, index) => {
                                 return (
                                     <Fragment key={index}>
-                                        <li className="col-3 "><NavLink to={"conjugation/conjugation-verb-" + verb + ".html"} className="text-info" onClick={ClickOn}>{verb}</NavLink> </li>
+                                        <li className="col-3 "><NavLink to={"conjugation/conjugation-verb-" + verb + ".html"} className="text-info" >{verb}</NavLink> </li>
                                     </Fragment>
                                 )
                             })

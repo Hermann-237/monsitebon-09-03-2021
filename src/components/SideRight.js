@@ -8,29 +8,10 @@ function SideRight() {
 
     const [PopularVerb] = useState(popularVerb)
     const [verbAConjuger] = useState(ListVerb)
-    let [dataVrai] = useState("")
+
     console.log(verbAConjuger[0])
 
-    function ClickOn(e) {
-        const result = e.target.textContent
 
-        const options = {
-            method: 'GET',
-            url: 'https://linguatools-conjugations.p.rapidapi.com/conjugate/',
-            params: { verb: result },
-            headers: {
-                'x-rapidapi-key': '2a50965eebmsh629d096fce14516p1319aejsn22e0ba714d98',
-                'x-rapidapi-host': 'linguatools-conjugations.p.rapidapi.com'
-            }
-        };
-
-        axios.request(options).then(function (response) {
-            dataVrai = response.data
-            console.log(dataVrai)
-        }).catch(function (error) {
-            console.error(error);
-        });
-    }
 
     return (
         <>
@@ -43,7 +24,7 @@ function SideRight() {
                         PopularVerb.map((verb, index) => {
                             return (
                                 <Fragment key={index}>
-                                    <li className="col-6"><NavLink to={"/conjugation/conjugation-verb-" + verb + ".html"} className="text-info" onClick={ClickOn}>{verb}</NavLink> </li>
+                                    <li className="col-6"><NavLink to={"/conjugation/conjugation-verb-" + verb + ".html"} className="text-info" >{verb}</NavLink> </li>
                                 </Fragment>
                             )
                         })
